@@ -1,6 +1,6 @@
 <?php
 
-namespace Bit8\Client\Resource;
+namespace Bit8\Api\Resource;
 
 use Psr\Http\Message\ResponseInterface;
 use Webmozart\Json\JsonDecoder;
@@ -9,12 +9,12 @@ use Webmozart\Json\JsonValidator;
 use Bit8\Exception\InvalidJsonSchemaException;
 use Bit8\Exception\ApiErrorException;
 use Bit8\Client;
-use Bit8\Client\Resource\Converter\JsonDataConverterInterface;
+use Bit8\Api\Resource\Converter\JsonDataConverterInterface;
 
 
 /**
  * Class ApiAbstract
- * @package Bit8\Client\Resource
+ * @package Bit8\Api\Resource
  */
 abstract class ApiAbstract
 {

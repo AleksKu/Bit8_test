@@ -3,7 +3,7 @@
 
 use Bit8\Client;
 
-use Bit8\Client\Resource\LocationApi;
+use Bit8\Api\Resource\LocationApi;
 use Bit8\Exception\InvalidJsonSchemaException;
 use Bit8\Exception\ApiErrorException;
 
@@ -74,12 +74,12 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
     {
         $api = new Client();
 
-        $location = $api->resource('location');
+        $location = $api->api('location');
 
         $this->assertInstanceOf(LocationApi::class, $location);
 
         $this->setExpectedException('InvalidArgumentException');
-        $location = $api->resource('invalid');
+        $location = $api->api('invalid');
 
 
     }
@@ -93,7 +93,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $api = new Client('http://localhost', $httpClient);
 
-        $locations = $api->resource('location')->all();
+        $locations = $api->api('location')->get();
 
 
         $this->assertTrue(is_array($locations));
@@ -111,8 +111,8 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $api = new Client('http://localhost', $httpClient);
 
-        $dataConverter = Client\Resource\Factory::createConverter('location');
-        $locations = $api->resource('location')->useDataConverter($dataConverter)->all();
+        $dataConverter = Bit8\Api\Resource\Factory::createConverter('location');
+        $locations = $api->api('location')->useDataConverter($dataConverter)->get();
 
 
         $this->assertInstanceOf(\Bit8\Location\LocationCollection::class, $locations);
@@ -138,7 +138,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException(DecodingFailedException::class);
 
-        $locations = $api->resource('location')->all();
+        $locations = $api->api('location')->get();
 
 
     }
@@ -155,7 +155,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException(DecodingFailedException::class);
 
-        $locations = $api->resource('location')->all();
+        $locations = $api->api('location')->get();
 
 
     }
@@ -171,7 +171,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException(InvalidJsonSchemaException::class);
 
-        $locations = $api->resource('location')->all();
+        $locations = $api->api('location')->get();
 
 
     }
@@ -187,7 +187,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException(ApiErrorException::class);
 
-        $locations = $api->resource('location')->all();
+        $locations = $api->api('location')->get();
 
 
     }
@@ -201,7 +201,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
 
         try {
-            $locations = $api->resource('location')->all();
+            $locations = $api->api('location')->get();
 
         } catch (Exception $e) {
             $this->assertInstanceOf(ApiErrorException::class, $e);
@@ -228,7 +228,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException(ClientException::class);
 
-        $locations = $api->resource('location')->all();
+        $locations = $api->api('location')->get();
     }
 
 

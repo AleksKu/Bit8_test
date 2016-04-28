@@ -1,11 +1,11 @@
 <?php
 
-namespace Bit8\Client\Resource;
-use Bit8\Client\Resource\Converter\JsonDataConverterInterface;
+namespace Bit8\Api\Resource;
+use Bit8\Api\Resource\Converter\JsonDataConverterInterface;
 
 /**
  * Class LocationApi
- * @package Bit8\Client\Resource
+ * @package Bit8\Api\Resource
  */
 class LocationApi extends ApiAbstract
 {
@@ -19,7 +19,7 @@ class LocationApi extends ApiAbstract
      * Получить все локации
      * @return mixed
      */
-    public function all()
+    public function get()
     {
         $response = $this->client->get(static::$resourceUrl);
 

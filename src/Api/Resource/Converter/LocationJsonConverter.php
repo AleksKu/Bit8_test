@@ -1,5 +1,5 @@
 <?php
-namespace Bit8\Client\Resource\Converter;
+namespace Bit8\Api\Resource\Converter;
 
 use Bit8\Location\Coordinate;
 use Bit8\Location\Location;

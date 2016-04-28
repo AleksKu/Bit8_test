@@ -2,7 +2,8 @@
 
 namespace Bit8;
 
-use Bit8\Client\Resource\Factory;
+use Bit8\Api\Resource\ApiAbstract;
+use Bit8\Api\Resource\Factory;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -54,9 +55,9 @@ class Client
     /**
      * Объект API ресурса
      * @param $type
-     * @return Client\Resource\ApiAbstract
+     * @return ApiAbstract
      */
-    public function resource($type)
+    public function api($type)
     {
         return Factory::create($type, $this);
     }
