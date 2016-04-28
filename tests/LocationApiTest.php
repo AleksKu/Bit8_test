@@ -69,8 +69,17 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
         return $httpClient;
     }
 
-    public function testResourceFactory()
+    /**
+     * @param $httpClient
+     * @return Client
+     */
+    protected function createClient($httpClient)
+    {
+        $api = new Client('http://localhost', $httpClient);
+        return $api;
+    }
 
+    public function testResourceFactory()
     {
         $api = new Client();
 
@@ -85,13 +94,16 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * Тест на получение валидных данных от API
+     */
     public function testGetLocations()
     {
 
 
         $httpClient = $this->createHttpClient($this->validResponse);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
         $locations = $api->api('location')->get();
 
@@ -103,13 +115,17 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * Тест на получение валидных данных от API с применением конвертера данных
+     *
+     */
     public function testGetLocationsUseConverter()
     {
 
 
         $httpClient = $this->createHttpClient($this->validResponse);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
         $dataConverter = Bit8\Api\Resource\Factory::createConverter('location');
         $locations = $api->api('location')->useDataConverter($dataConverter)->get();
@@ -127,13 +143,16 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Тест на невалидный формат json. например, если тело ответа пришло не полностью
+     */
     public function testInvalidJsonFormat()
     {
 
 
         $httpClient = $this->createHttpClient($this->invalidJsonResponse);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
 
         $this->setExpectedException(DecodingFailedException::class);
@@ -144,13 +163,16 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * тест на пустой ответ
+     */
     public function testEmptyJsonFormat()
     {
 
 
         $httpClient = $this->createHttpClient('');
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
 
         $this->setExpectedException(DecodingFailedException::class);
@@ -160,13 +182,17 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Тест на невалидную схему json
+     * Схемы описываются в src/schemas
+     */
     public function testInvalidJsonSchema()
     {
 
 
         $httpClient = $this->createHttpClient($this->invalidJsonSchemaResponse);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
 
         $this->setExpectedException(InvalidJsonSchemaException::class);
@@ -176,13 +202,16 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Тест на получение ответа с ошибкой
+     */
     public function testErrorResponseSchema()
     {
 
 
         $httpClient = $this->createHttpClient($this->errorJsonResponse);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
 
         $this->setExpectedException(ApiErrorException::class);
@@ -192,12 +221,13 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
     }
 
+
     public function testErrorExceptionResponseSchema()
     {
 
         $httpClient = $this->createHttpClient($this->errorJsonResponse);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
 
         try {
@@ -224,7 +254,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
         $handler = HandlerStack::create($mock);
         $httpClient = new HttpClient(['handler' => $handler]);
 
-        $api = new Client('http://localhost', $httpClient);
+        $api = $this->createClient($httpClient);
 
         $this->setExpectedException(ClientException::class);
 

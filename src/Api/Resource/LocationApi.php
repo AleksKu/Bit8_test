@@ -16,7 +16,7 @@ class LocationApi extends ApiAbstract
 
 
     /**
-     * Получить все локации
+     * get all Locations
      * @return mixed
      */
     public function get()

@@ -42,12 +42,14 @@ abstract class ApiAbstract
     protected $dataConverter = null;
 
 
+    /**
+     * ApiAbstract constructor.
+     * @param Client $client
+     */
     public function __construct(Client $client)
     {
         $this->client = $client;
     }
-
-
 
 
     /**
@@ -61,13 +63,19 @@ abstract class ApiAbstract
 
     }
 
+    /**
+     * Send a GET request
+     * @return mixed
+     */
+    abstract public function get();
+
 
     /**
-     * Парсинг ответа
+     * parse json response
      * @param ResponseInterface $response
      * @throws InvalidJsonSchemaException
      * @throws \Webmozart\Json\ValidationFailedException
-     * @return
+     * @return mixed
      */
     protected function parse(ResponseInterface $response)
     {
@@ -83,7 +91,7 @@ abstract class ApiAbstract
     }
 
     /**
-     * Парсинг данных из ответа
+     * parse json data
      * @param \stdClass $data
      * @return mixed
      */
@@ -91,7 +99,7 @@ abstract class ApiAbstract
 
 
     /**
-     * Валидация json схемы
+     * validate json schema
      * @param $responseObj
      * @throws InvalidJsonSchemaException
      */
@@ -113,7 +121,7 @@ abstract class ApiAbstract
     }
 
     /**
-     * Обработка ошибок Api
+     * parse error response
      * @param $responseObj
      * @throws ApiErrorException
      * @throws InvalidJsonSchemaException
