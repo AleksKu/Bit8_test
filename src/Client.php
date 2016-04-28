@@ -32,6 +32,8 @@ class Client implements ApiClientInterface
      */
     protected $baseUri = 'http://localhost/';
 
+    const API_REQUEST_TIMEOUT = 2.0;
+
 
     /**
      * Client constructor.
@@ -49,7 +51,7 @@ class Client implements ApiClientInterface
             $this->setHttpClient($httpClient);
 
         } else {
-            $this->setHttpClient(new static::$httpDefaultClient(['base_uri' => $this->baseUri]));
+            $this->setHttpClient(new static::$httpDefaultClient(['base_uri' => $this->baseUri, 'timeout'  => static::API_REQUEST_TIMEOUT]));
 
         }
 
