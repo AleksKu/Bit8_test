@@ -47,16 +47,7 @@ abstract class ApiAbstract
         $this->client = $client;
     }
 
-    /**
-     * GET запрос
-     * @param $path
-     * @return ResponseInterface
-     */
-    public final function get($path)
-    {
-        $response = $this->client->getHttpClient()->request('GET', $path);
-        return $response;
-    }
+
 
 
     /**
@@ -76,6 +67,7 @@ abstract class ApiAbstract
      * @param ResponseInterface $response
      * @throws InvalidJsonSchemaException
      * @throws \Webmozart\Json\ValidationFailedException
+     * @return
      */
     protected function parse(ResponseInterface $response)
     {
@@ -103,7 +95,7 @@ abstract class ApiAbstract
      * @param $responseObj
      * @throws InvalidJsonSchemaException
      */
-    protected function validateSchema($responseObj)
+    protected function validateSchema(\stdClass $responseObj)
     {
 
         $validator = new JsonValidator();

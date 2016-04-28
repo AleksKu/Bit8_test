@@ -21,7 +21,7 @@ class LocationApi extends ApiAbstract
      */
     public function all()
     {
-        $response = $this->get(static::$resourceUrl);
+        $response = $this->client->get(static::$resourceUrl);
 
         return $this->parse($response);
     }

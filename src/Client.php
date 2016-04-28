@@ -4,6 +4,7 @@ namespace Bit8;
 
 use Bit8\Client\Resource\Factory;
 use GuzzleHttp\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 
 /**
@@ -78,11 +79,14 @@ class Client
         return $this;
     }
 
+    /**
+     * @return $this
+     */
 
     public function authenticate()
     {
 
-
+        return $this;
     }
 
 
@@ -111,6 +115,63 @@ class Client
     public function schemaPath($resourceSchemaName)
     {
         return __DIR__ . '/schemas/' . $resourceSchemaName;
+    }
+
+
+    /**
+     * Send a GET request.
+     * @param $path
+     * @return ResponseInterface
+     */
+    public final function get($path)
+    {
+        return $this->getHttpClient()->request('GET', $path);
+
+    }
+
+
+    /**
+     * Send a POST request.
+     * @param $path
+     * @param null $body
+     * @return ResponseInterface
+     */
+    public function post($path, $body = null)
+    {
+        return $this->getHttpClient()->request('GET', $path, ['body' => $body]);
+    }
+
+    /**
+     * Send a PATH request.
+     * @param $path
+     * @param null $body
+     * @return ResponseInterface
+     */
+    public function patch($path, $body = null)
+    {
+        return $this->getHttpClient()->request($path, 'PATCH', ['body' => $body]);
+    }
+
+    /**
+     * Send a DELETE request.
+     * @param $path
+     * @param null $body
+     * @return ResponseInterface
+     */
+    public function delete($path, $body = null)
+    {
+        return $this->getHttpClient()->request($path, 'DELETE', ['body' => $body]);
+    }
+
+    /**
+     * Send a PUT request.
+     * @param $path
+     * @param $body
+     * @return ResponseInterface
+     */
+    public function put($path, $body)
+    {
+        return $this->getHttpClient()->request($path, 'PUT', ['body' => $body]);
     }
 
 
