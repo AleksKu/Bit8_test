@@ -22,11 +22,14 @@ class Client
     public function __construct($baseUri = null, ClientInterface $httpClient = null)
     {
 
-        $this->baseUri = $baseUri;
+        if($baseUri !== null)
+            $this->baseUri = $baseUri;
 
         if($httpClient === null)
         {
             $this->setHttpClient(new \GuzzleHttp\Client(['base_uri'=> $this->baseUri]));
+        } else {
+            $this->setHttpClient($httpClient);
         }
 
 
