@@ -1,0 +1,48 @@
+{
+  "title": "Location Schema",
+  "type": "object",
+  "properties": {
+    "data": {
+      "title": "data",
+      "type": "object",
+      "properties": {
+        "locations": {
+          "title": "Location",
+          "type": "array",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "≈": {
+                  "type": "number"
+                },
+                "long": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "lat",
+                "long"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "coordinates"
+          ]
+        }
+      }
+    },
+    "success": {
+      "title": "Success",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "data",
+    "success"
+  ]
+}

@@ -12,7 +12,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-
+use GuzzleHttp\Exception\ClientException;
 
 
 class LocationApiTest extends PHPUnit_Framework_TestCase
@@ -102,11 +102,53 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
     }
 
+
+    public function testGetLocationsUseConverter()
+    {
+
+
+        $httpClient = $this->createHttpClient($this->validResponse);
+
+        $api = new Client('http://localhost', $httpClient);
+
+        $dataConverter = Client\Resource\Factory::createConverter('location');
+        $locations = $api->resource('location')->useDataConverter($dataConverter)->all();
+
+
+        $this->assertInstanceOf(\Bit8\Location\LocationCollection::class, $locations);
+        $this->assertCount(2, $locations);
+
+        $location1 = $locations[0];
+
+        $this->assertInstanceOf(\Bit8\Location\Location::class, $location1);
+        $this->assertCount(2, $locations);
+        $this->assertContains('Eiffel Tower', $location1->getName());
+
+
+    }
+
     public function testInvalidJsonFormat()
     {
 
 
         $httpClient = $this->createHttpClient($this->invalidJsonResponse);
+
+        $api = new Client('http://localhost', $httpClient);
+
+
+        $this->setExpectedException(DecodingFailedException::class);
+
+        $locations = $api->resource('location')->all();
+
+
+    }
+
+
+    public function testEmptyJsonFormat()
+    {
+
+
+        $httpClient = $this->createHttpClient('');
 
         $api = new Client('http://localhost', $httpClient);
 
@@ -166,6 +208,27 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($e->getCode(), 100);
             $this->assertContains($e->getMessage(), 'api error');
         }
+    }
+
+
+    /**
+     * тесты на ошибки сети
+     *
+     */
+    public function testHttp404Error()
+    {
+        $mock = new MockHandler([
+            new Response(404)
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $httpClient = new HttpClient(['handler' => $handler]);
+
+        $api = new Client('http://localhost', $httpClient);
+
+        $this->setExpectedException(ClientException::class);
+
+        $locations = $api->resource('location')->all();
     }
 
 

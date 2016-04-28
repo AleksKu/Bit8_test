@@ -4,14 +4,42 @@ namespace Bit8\Client\Resource;
 
 use Psr\Http\Message\ResponseInterface;
 use Webmozart\Json\JsonDecoder;
+use Webmozart\Json\JsonValidator;
+
 use Bit8\Exception\InvalidJsonSchemaException;
 use Bit8\Exception\ApiErrorException;
 use Bit8\Client;
+use Bit8\Client\Resource\Converter\JsonDataConverterInterface;
 
+
+/**
+ * Class ApiAbstract
+ * @package Bit8\Client\Resource
+ */
 abstract class ApiAbstract
 {
 
-    protected $resourceUrl;
+
+    /**
+     * @var string
+     */
+    protected static $resourceUrl;
+
+    /**
+     * @var string
+     */
+    protected static $schemaFileName;
+
+    /**
+     * @var string
+     */
+    protected static $errorSchemaFileName = 'error.json';
+
+    /**
+     *
+     * @var null|JsonDataConverterInterface
+     */
+    protected $dataConverter = null;
 
 
     public function __construct(Client $client)
@@ -19,7 +47,12 @@ abstract class ApiAbstract
         $this->client = $client;
     }
 
-    protected function get($path)
+    /**
+     * GET запрос
+     * @param $path
+     * @return ResponseInterface
+     */
+    public final function get($path)
     {
         $response = $this->client->getHttpClient()->request('GET', $path);
         return $response;
@@ -27,6 +60,19 @@ abstract class ApiAbstract
 
 
     /**
+     * @param JsonDataConverterInterface $converter
+     * @return $this
+     */
+    public function useDataConverter(JsonDataConverterInterface $converter)
+    {
+        $this->dataConverter = $converter;
+        return $this;
+
+    }
+
+
+    /**
+     * Парсинг ответа
      * @param ResponseInterface $response
      * @throws InvalidJsonSchemaException
      * @throws \Webmozart\Json\ValidationFailedException
@@ -43,47 +89,58 @@ abstract class ApiAbstract
 
 
     }
-    
-    protected abstract function parseData(\stdClass $data);
-    
-    protected abstract function validateDataSchema(\stdClass $data);
 
     /**
+     * Парсинг данных из ответа
+     * @param \stdClass $data
+     * @return mixed
+     */
+    protected abstract function parseData(\stdClass $data);
+
+
+    /**
+     * Валидация json схемы
      * @param $responseObj
      * @throws InvalidJsonSchemaException
      */
     protected function validateSchema($responseObj)
     {
-        if (!property_exists($responseObj, 'success') || !property_exists($responseObj, 'data'))
-            throw new InvalidJsonSchemaException('xxx');
+
+        $validator = new JsonValidator();
+        $errors = $validator->validate($responseObj, $this->client->schemaPath(static::$schemaFileName));
+
+
+        if (count($errors) > 0)
+            throw new InvalidJsonSchemaException(implode(',,, ', $errors));
 
 
         if ($responseObj->success == false)
             $this->parseError($responseObj);
 
 
-        $data = $responseObj->data;
-
-       $this->validateDataSchema($data);
-
-
     }
 
     /**
+     * Обработка ошибок Api
      * @param $responseObj
      * @throws ApiErrorException
      * @throws InvalidJsonSchemaException
      */
-    public function parseError($responseObj)
+    public function parseError(\stdClass $responseObj)
     {
 
+        $validator = new JsonValidator();
+        $errors = $validator->validate($responseObj, $this->client->schemaPath(static::$errorSchemaFileName));
+
+
+        if (count($errors) > 0)
+            throw new InvalidJsonSchemaException(implode(',,, ', $errors));
+
+
         $data = $responseObj->data;
-        if (!property_exists($data, 'message') || !property_exists($data, 'code'))
-            throw new InvalidJsonSchemaException('xxx');
 
         throw new ApiErrorException($data->message, $data->code);
     }
 
 
-    
 }

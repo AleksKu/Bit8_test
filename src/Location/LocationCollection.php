@@ -3,8 +3,11 @@
 
 namespace Bit8\Location;
 
-
-class LocationCollection
+/**
+ * Class LocationCollection
+ * @package Bit8\Location
+ */
+class LocationCollection extends \ArrayObject
 {
 
 }

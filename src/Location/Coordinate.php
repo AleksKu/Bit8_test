@@ -4,9 +4,13 @@
 
 namespace Bit8\Location;
 
-
+/**
+ * Class Coordinate
+ * @package Bit8\Location
+ */
 class Coordinate
 {
+
 
     /**
      * @var float
@@ -16,6 +20,15 @@ class Coordinate
      * @var float
      */
     protected $latitude;
+
+
+    public function __construct($latitude, $longitude)
+    {
+
+        $this->longitude = $longitude;
+        $this->latitude = $latitude;
+    }
+
     /**
      * @return float
      */
@@ -23,6 +36,7 @@ class Coordinate
     {
         return $this->longitude;
     }
+
     /**
      * @return float
      */
@@ -30,6 +44,7 @@ class Coordinate
     {
         return $this->latitude;
     }
+
     /**
      * @return float
      */
@@ -37,6 +52,7 @@ class Coordinate
     {
         return deg2rad($this->latitude);
     }
+
     /**
      * @return float
      */

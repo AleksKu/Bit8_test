@@ -1,37 +1,44 @@
 <?php
 
 namespace Bit8\Client\Resource;
+use Bit8\Client\Resource\Converter\JsonDataConverterInterface;
 
-
-use Bit8\Exception\InvalidJsonSchemaException;
-
+/**
+ * Class LocationApi
+ * @package Bit8\Client\Resource
+ */
 class LocationApi extends ApiAbstract
 {
 
+    protected static $resourceUrl = 'all';
 
+    protected static $schemaFileName = 'locations.json';
+
+
+    /**
+     * Получить все локации
+     * @return mixed
+     */
     public function all()
     {
-        $response = $this->get('all');
+        $response = $this->get(static::$resourceUrl);
 
         return $this->parse($response);
     }
 
 
+    /**
+     * @param \stdClass $data
+     * @return array|mixed
+     */
     protected function parseData(\stdClass $data)
     {
-        return $data->locations;
-    }
-
-    protected function validateDataSchema(\stdClass $data)
-    {
-        if (!property_exists($data, 'locations')) {
-            throw new InvalidJsonSchemaException('xxx');
+        if ($this->dataConverter instanceof JsonDataConverterInterface) {
+            return $this->dataConverter->fromJson($data->locations);
         }
 
-        $locations = $data->locations;
 
-        if (!is_array($locations))
-            throw new InvalidJsonSchemaException('xxx');
+        return $data->locations;
     }
 
 

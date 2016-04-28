@@ -5,8 +5,11 @@ namespace Bit8;
 use Bit8\Client\Resource\Factory;
 use GuzzleHttp\ClientInterface;
 
-use Bit8\Exception\InvalidArgumentException;
 
+/**
+ * Class Client
+ * @package Bit8
+ */
 class Client
 {
 
@@ -15,26 +18,43 @@ class Client
      */
     protected $httpClient;
 
-    protected $baseUri = 'http://localhost/{version}/';
+    public static $httpDefaultClient = \GuzzleHttp\Client::class;
 
-    const API_VERSION = '1.1';
+    /**
+     * базовый url API
+     * @var null|string
+     */
+    protected $baseUri = 'http://localhost/';
 
+
+    /**
+     * Client constructor.
+     * @param null $baseUri
+     * @param ClientInterface|null $httpClient
+     */
     public function __construct($baseUri = null, ClientInterface $httpClient = null)
     {
 
-        if($baseUri !== null)
+        if ($baseUri !== null)
             $this->baseUri = $baseUri;
 
-        if($httpClient === null)
-        {
-            $this->setHttpClient(new \GuzzleHttp\Client(['base_uri'=> $this->baseUri]));
-        } else {
+
+        if ($httpClient instanceof ClientInterface) {
             $this->setHttpClient($httpClient);
+
+        } else {
+            $this->setHttpClient(new static::$httpDefaultClient(['base_uri' => $this->baseUri]));
+
         }
 
 
     }
 
+    /**
+     * Объект API ресурса
+     * @param $type
+     * @return Client\Resource\ApiAbstract
+     */
     public function resource($type)
     {
         return Factory::create($type, $this);
@@ -47,6 +67,7 @@ class Client
     {
         return $this->httpClient;
     }
+
     /**
      * @param ClientInterface $httpClient
      * @return $this
@@ -58,23 +79,12 @@ class Client
     }
 
 
-
     public function authenticate()
     {
-        // Sign all requests with the OauthPlugin
-  /*      $this->getHttpClient()->addSubscriber(new Guzzle\Plugin\Oauth\OauthPlugin(array(
-            'consumer_key'  => '***',
-            'consumer_secret' => '***',
-            'token'       => '***',
-            'token_secret'  => '***'
-        )));*/
+
 
     }
 
-    public function get()
-    {
-        $response = $this->getHttpClient()->get('http://httpbin.org/get');
-    }
 
     /**
      * @return string
@@ -90,6 +100,17 @@ class Client
     public function setBaseUri($baseUri)
     {
         $this->baseUri = $baseUri;
+    }
+
+
+    /**
+     * Путь до файла схемы
+     * @param $resourceSchemaName
+     * @return string
+     */
+    public function schemaPath($resourceSchemaName)
+    {
+        return __DIR__ . '/schemas/' . $resourceSchemaName;
     }
 
 

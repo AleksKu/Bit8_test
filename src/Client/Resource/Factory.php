@@ -6,6 +6,10 @@ namespace Bit8\Client\Resource;
 
 use Bit8\Client;
 
+/**
+ * Class Factory
+ * @package Bit8\Client\Resource
+ */
 class Factory
 {
 
@@ -19,12 +23,23 @@ class Factory
     {
 
 
-        $resourceClass = __NAMESPACE__  .'\\'. ucwords($type)."Api";
-        if (class_exists($resourceClass)) {
-            $resource = new $resourceClass($client);
+        $type = __NAMESPACE__ . '\\' . ucwords($type) . "Api";
+        if (class_exists($type)) {
+            $resource = new $type($client);
             return $resource;
         } else {
             throw new \InvalidArgumentException("Invalid resource api type given.");
+        }
+    }
+
+    public static function createConverter($type)
+    {
+        $type = __NAMESPACE__ . '\\Converter\\' . ucwords($type) . "JsonConverter";
+        if (class_exists($type)) {
+            $resource = new $type();
+            return $resource;
+        } else {
+            throw new \InvalidArgumentException("Invalid Converter type given.");
         }
     }
 

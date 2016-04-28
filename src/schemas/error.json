@@ -1,0 +1,30 @@
+{
+  "title": "Location Schema",
+  "type": "object",
+  "properties": {
+    "data": {
+      "title": "data",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "message",
+        "code"
+      ]
+    },
+    "success": {
+      "title": "Success",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "data",
+    "success"
+  ]
+}
