@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Bit8\Api\Resource;
+namespace Bit8\Api;
 
 
 use Bit8\Client;
 
 /**
  * Class Factory
- * @package Bit8\Api\Resource
+ * @package Bit8\Api
  */
 class Factory
 {

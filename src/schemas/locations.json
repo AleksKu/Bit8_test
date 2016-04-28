@@ -16,7 +16,7 @@
             "coordinates": {
               "type": "object",
               "properties": {
-                "≈": {
+                "lat": {
                   "type": "number"
                 },
                 "long": {

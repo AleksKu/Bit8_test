@@ -1,6 +1,6 @@
 <?php
 
-namespace Bit8\Api\Resource\Converter;
+namespace Bit8\Api\Converter;
 
 interface JsonDataConverterInterface
 {

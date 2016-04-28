@@ -5,9 +5,9 @@
  * Date: 28.04.16
  * Time: 18:39
  */
-namespace Bit8\Api\Resource;
+namespace Bit8\Api;
 
-use Bit8\Api\Resource\Converter\JsonDataConverterInterface;
+use Bit8\Api\Converter\JsonDataConverterInterface;
 use Bit8\Exception\ApiErrorException;
 use Bit8\Exception\InvalidJsonSchemaException;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ApiAbstract
- * @package Bit8\Api\Resource
+ * @package Bit8\Api
  */
 interface ApiInterface
 {

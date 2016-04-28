@@ -2,8 +2,8 @@
 
 namespace Bit8;
 
-use Bit8\Api\Resource\ApiAbstract;
-use Bit8\Api\Resource\Factory;
+use Bit8\Api\ApiAbstract;
+use Bit8\Api\Factory;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 

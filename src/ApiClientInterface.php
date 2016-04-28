@@ -2,7 +2,7 @@
 
 namespace Bit8;
 
-use Bit8\Api\Resource\ApiAbstract;
+use Bit8\Api\ApiAbstract;
 use Psr\Http\Message\ResponseInterface;
 
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Bit8\Api\Resource;
-use Bit8\Api\Resource\Converter\JsonDataConverterInterface;
+namespace Bit8\Api;
+use Bit8\Api\Converter\JsonDataConverterInterface;
 
 /**
  * Class LocationApi
- * @package Bit8\Api\Resource
+ * @package Bit8\Api
  */
 class LocationApi extends ApiAbstract
 {

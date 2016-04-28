@@ -3,7 +3,7 @@
 
 use Bit8\Client;
 
-use Bit8\Api\Resource\LocationApi;
+use Bit8\Api\LocationApi;
 use Bit8\Exception\InvalidJsonSchemaException;
 use Bit8\Exception\ApiErrorException;
 
@@ -12,7 +12,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 
 class LocationApiTest extends PHPUnit_Framework_TestCase
@@ -127,7 +127,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $api = $this->createClient($httpClient);
 
-        $dataConverter = Bit8\Api\Resource\Factory::createConverter('location');
+        $dataConverter = Bit8\Api\Factory::createConverter('location');
         $locations = $api->api('location')->useDataConverter($dataConverter)->get();
 
 
@@ -256,7 +256,7 @@ class LocationApiTest extends PHPUnit_Framework_TestCase
 
         $api = $this->createClient($httpClient);
 
-        $this->setExpectedException(ClientException::class);
+        $this->setExpectedException(RequestException::class);
 
         $locations = $api->api('location')->get();
     }

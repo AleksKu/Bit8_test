@@ -1,5 +1,5 @@
 {
-  "title": "Location Schema",
+  "title": "Location Error Schema",
   "type": "object",
   "properties": {
     "data": {

@@ -1,5 +1,6 @@
 {
   "name": "aleks_ku/bit8_test",
+  "type": "library",
   "description": "Test package for 8Bit",
   "require": {
     "php": ">=5.3.0",
