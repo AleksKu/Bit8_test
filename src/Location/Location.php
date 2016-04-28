@@ -10,7 +10,7 @@ class Location
 {
 
     /**
-     * @var
+     * @var Coordinate
      */
     protected $coordinates;
 

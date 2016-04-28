@@ -2,6 +2,7 @@
 
 namespace Bit8\Api\Resource;
 
+use Bit8\ApiClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Webmozart\Json\JsonDecoder;
 use Webmozart\Json\JsonValidator;
@@ -16,7 +17,7 @@ use Bit8\Api\Resource\Converter\JsonDataConverterInterface;
  * Class ApiAbstract
  * @package Bit8\Api\Resource
  */
-abstract class ApiAbstract
+abstract class ApiAbstract implements ApiInterface
 {
 
 
@@ -43,10 +44,16 @@ abstract class ApiAbstract
 
 
     /**
+     * @var ApiClientInterface
+     */
+    protected $client;
+
+
+    /**
      * ApiAbstract constructor.
      * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct(ApiClientInterface $client)
     {
         $this->client = $client;
     }
@@ -77,7 +84,7 @@ abstract class ApiAbstract
      * @throws \Webmozart\Json\ValidationFailedException
      * @return mixed
      */
-    protected function parse(ResponseInterface $response)
+    public function parse(ResponseInterface $response)
     {
         $decoder = new JsonDecoder();
 
@@ -95,7 +102,7 @@ abstract class ApiAbstract
      * @param \stdClass $data
      * @return mixed
      */
-    protected abstract function parseData(\stdClass $data);
+    abstract public function parseData(\stdClass $data);
 
 
     /**
@@ -103,7 +110,7 @@ abstract class ApiAbstract
      * @param $responseObj
      * @throws InvalidJsonSchemaException
      */
-    protected function validateSchema(\stdClass $responseObj)
+    public function validateSchema(\stdClass $responseObj)
     {
 
         $validator = new JsonValidator();

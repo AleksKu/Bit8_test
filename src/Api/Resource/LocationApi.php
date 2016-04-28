@@ -31,7 +31,7 @@ class LocationApi extends ApiAbstract
      * @param \stdClass $data
      * @return array|mixed
      */
-    protected function parseData(\stdClass $data)
+    public function parseData(\stdClass $data)
     {
         if ($this->dataConverter instanceof JsonDataConverterInterface) {
             return $this->dataConverter->fromJson($data->locations);

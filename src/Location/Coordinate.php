@@ -1,7 +1,5 @@
 <?php
 
-//https://github.com/ayeo/geo/blob/master/src/Coordinate/Degree.php
-
 namespace Bit8\Location;
 
 /**

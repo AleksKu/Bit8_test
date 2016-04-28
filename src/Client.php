@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class Client
  * @package Bit8
  */
-class Client
+class Client implements ApiClientInterface
 {
 
     /**
@@ -20,10 +20,14 @@ class Client
      */
     protected $httpClient;
 
+    /**
+     * Default Http Client
+     * @var ClientInterface
+     */
     public static $httpDefaultClient = \GuzzleHttp\Client::class;
 
     /**
-     * базовый url API
+     * default url API
      * @var null|string
      */
     protected $baseUri = 'http://localhost/';
@@ -53,7 +57,7 @@ class Client
     }
 
     /**
-     * Объект API ресурса
+     *
      * @param $type
      * @return ApiAbstract
      */
@@ -81,6 +85,7 @@ class Client
     }
 
     /**
+     *
      * @return $this
      */
 
