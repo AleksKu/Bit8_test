@@ -4,6 +4,7 @@ namespace Bit8;
 
 use Bit8\Api\ApiAbstract;
 use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\ClientInterface;
 
 
 /**
@@ -20,19 +21,19 @@ interface ApiClientInterface
     public function api($type);
 
     /**
-     * @return \GuzzleHttp\ClientInterface
+     * @return ClientInterface
      */
     public function getHttpClient();
 
     /**
-     * @param \GuzzleHttp\ClientInterface $httpClient
-     * @return \GuzzleHttp\ClientInterface
+     * @param ClientInterface $httpClient
+     * @return ClientInterface
      */
-    public function setHttpClient(\GuzzleHttp\ClientInterface $httpClient);
+    public function setHttpClient(ClientInterface $httpClient);
 
     /**
      *
-     * @return \GuzzleHttp\ClientInterface
+     * @return ClientInterface
      */
     public function authenticate();
 

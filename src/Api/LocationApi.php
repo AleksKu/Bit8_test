@@ -10,7 +10,7 @@ use Bit8\Api\Converter\JsonDataConverterInterface;
 class LocationApi extends ApiAbstract
 {
 
-    protected static $resourceUrl = 'all';
+    protected  $resourceUrl = 'locations';
 
     protected static $schemaFileName = 'locations.json';
 
@@ -21,7 +21,7 @@ class LocationApi extends ApiAbstract
      */
     public function get()
     {
-        $response = $this->client->get(static::$resourceUrl);
+        $response = $this->client->get($this->resourceUrl);
 
         return $this->parse($response);
     }

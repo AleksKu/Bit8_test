@@ -9,6 +9,7 @@ use Webmozart\Json\JsonValidator;
 
 use Bit8\Exception\InvalidJsonSchemaException;
 use Bit8\Exception\ApiErrorException;
+use Webmozart\Json\ValidationFailedException;
 use Bit8\Client;
 use Bit8\Api\Converter\JsonDataConverterInterface;
 
@@ -24,7 +25,7 @@ abstract class ApiAbstract implements ApiInterface
     /**
      * @var string
      */
-    protected static $resourceUrl;
+    protected  $resourceUrl;
 
     /**
      * @var string
@@ -81,7 +82,7 @@ abstract class ApiAbstract implements ApiInterface
      * parse json response
      * @param ResponseInterface $response
      * @throws InvalidJsonSchemaException
-     * @throws \Webmozart\Json\ValidationFailedException
+     * @throws ValidationFailedException
      * @return mixed
      */
     public function parse(ResponseInterface $response)
